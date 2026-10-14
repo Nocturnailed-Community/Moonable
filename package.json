@@ -1,0 +1,78 @@
+{
+  "name": "moonable",
+  "version": "1.0.0",
+  "description": "Moonable — toolkit aksesibilitas untuk Next.js & Nuxt (TS/JS): Mode Lansia, disabilitas penglihatan, pendengaran, motorik, kognitif, TTS, perintah suara, dan audit WCAG.",
+  "license": "MIT",
+  "author": "Nocturnailed Community",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nocturnailed-Community/Moonable.git"
+  },
+  "homepage": "https://github.com/Nocturnailed-Community/Moonable#readme",
+  "bugs": {
+    "url": "https://github.com/Nocturnailed-Community/Moonable/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": ["moonable", "accessibility", "a11y", "wcag", "nextjs", "nuxt", "react", "vue", "elderly"],
+  "sideEffects": ["**/*.css"],
+  "files": ["dist", "README.md"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": { "types": "./dist/index.d.mts", "default": "./dist/index.mjs" },
+      "require": { "types": "./dist/index.d.ts", "default": "./dist/index.js" }
+    },
+    "./react": {
+      "import": { "types": "./dist/react.d.mts", "default": "./dist/react.mjs" },
+      "require": { "types": "./dist/react.d.ts", "default": "./dist/react.js" }
+    },
+    "./vue": {
+      "import": { "types": "./dist/vue.d.mts", "default": "./dist/vue.mjs" },
+      "require": { "types": "./dist/vue.d.ts", "default": "./dist/vue.js" }
+    },
+    "./nuxt": {
+      "import": { "types": "./dist/nuxt.d.mts", "default": "./dist/nuxt.mjs" },
+      "require": { "types": "./dist/nuxt.d.ts", "default": "./dist/nuxt.js" }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "react": ["./dist/react.d.ts"],
+      "vue": ["./dist/vue.d.ts"],
+      "nuxt": ["./dist/nuxt.d.ts"]
+    }
+  },
+  "scripts": {
+    "build": "tsup && node scripts/post-build.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@nuxt/kit": ">=3.0.0",
+    "react": ">=18",
+    "vue": ">=3.3"
+  },
+  "peerDependenciesMeta": {
+    "@nuxt/kit": { "optional": true },
+    "react": { "optional": true },
+    "vue": { "optional": true }
+  },
+  "devDependencies": {
+    "@nuxt/kit": "^3.13.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "jsdom": "^24.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.3.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0",
+    "vue": "^3.5.0"
+  }
+}

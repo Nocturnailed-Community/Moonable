@@ -1,0 +1,290 @@
+/* ==========================================================================
+   moonable — gaya fitur aksesibilitas
+   Semua efek dikendalikan oleh atribut data-moonable-* pada <html>.
+   Elemen UI milik library diberi atribut [data-moonable-ui] dan dikecualikan
+   dari perubahan warna/huruf agar panel tetap terbaca di mode apa pun.
+   Tambahkan data-moonable-keep-font pada ikon/font khusus agar tidak diganti.
+   ========================================================================== */
+
+/* ---------- Ukuran teks ---------- */
+html[data-moonable-font-scale]:not([data-moonable-scaling="zoom"]) {
+  font-size: calc(100% * var(--moonable-font-scale)) !important;
+}
+html[data-moonable-scaling="zoom"][data-moonable-font-scale] body { zoom: var(--moonable-font-scale); }
+
+/* ---------- Jarak & perataan teks ---------- */
+html[data-moonable-line-height] body *:not([data-moonable-ui], [data-moonable-ui] *) { line-height: var(--moonable-line-height) !important; }
+html[data-moonable-letter-spacing] body *:not([data-moonable-ui], [data-moonable-ui] *) { letter-spacing: calc(var(--moonable-letter-spacing) * 1em) !important; }
+html[data-moonable-word-spacing] body *:not([data-moonable-ui], [data-moonable-ui] *) { word-spacing: calc(var(--moonable-word-spacing) * 1em) !important; }
+html[data-moonable-text-align="left"] body *:not([data-moonable-ui], [data-moonable-ui] *) { text-align: left !important; }
+
+/* ---------- Jenis huruf (ikon font dilewati) ---------- */
+html[data-moonable-font-family="readable"] body *:not([data-moonable-ui], [data-moonable-ui] *, [data-moonable-keep-font], [class*="icon" i], [class^="fa"], [class*=" fa-"], .material-icons, .material-symbols-outlined, svg, svg *) {
+  font-family: "Atkinson Hyperlegible", Verdana, Tahoma, "Segoe UI", Arial, sans-serif !important;
+}
+html[data-moonable-font-family="dyslexia"] body *:not([data-moonable-ui], [data-moonable-ui] *, [data-moonable-keep-font], [class*="icon" i], [class^="fa"], [class*=" fa-"], .material-icons, .material-symbols-outlined, svg, svg *) {
+  font-family: "OpenDyslexic", "Lexend", "Comic Sans MS", "Trebuchet MS", Verdana, sans-serif !important;
+}
+html[data-moonable-font-family="serif"] body *:not([data-moonable-ui], [data-moonable-ui] *, [data-moonable-keep-font], [class*="icon" i], [class^="fa"], [class*=" fa-"], .material-icons, .material-symbols-outlined, svg, svg *) {
+  font-family: Georgia, "Times New Roman", serif !important;
+}
+html[data-moonable-font-family="mono"] body *:not([data-moonable-ui], [data-moonable-ui] *, [data-moonable-keep-font], [class*="icon" i], [class^="fa"], [class*=" fa-"], .material-icons, .material-symbols-outlined, svg, svg *) {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace !important;
+}
+
+/* ---------- Tandai tautan & judul ---------- */
+html[data-moonable-highlight-links] body a:not([data-moonable-ui], [data-moonable-ui] *) {
+  text-decoration: underline !important;
+  text-decoration-thickness: 0.12em !important;
+  text-underline-offset: 0.2em !important;
+  font-weight: 700 !important;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+html[data-moonable-highlight-headings] body :is(h1, h2, h3, h4, h5, h6, [role="heading"]):not([data-moonable-ui], [data-moonable-ui] *) {
+  outline: 3px solid #6d28d9 !important;
+  outline-offset: 4px !important;
+  background-image: linear-gradient(rgb(109 40 217 / 0.1), rgb(109 40 217 / 0.1)) !important;
+}
+
+/* ---------- Gambar ---------- */
+html[data-moonable-hide-images] body :is(img, picture, video, canvas, [role="img"]):not([data-moonable-ui], [data-moonable-ui] *) {
+  visibility: hidden !important;
+}
+
+/* ---------- Penanda fokus tebal ---------- */
+html[data-moonable-strong-focus] body *:focus {
+  outline: 4px solid #ffd400 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 2px #000 !important;
+}
+
+/* ---------- Hentikan animasi ---------- */
+html[data-moonable-reduce-motion] *,
+html[data-moonable-reduce-motion] *::before,
+html[data-moonable-reduce-motion] *::after {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+/* ---------- Target klik besar (WCAG 2.5.5, 44px) ---------- */
+html[data-moonable-large-targets] body :is(button, [role="button"], [role="tab"], [role="menuitem"], summary, select, input:not([type="checkbox"], [type="radio"], [type="hidden"])):not([data-moonable-ui], [data-moonable-ui] *) {
+  min-height: 44px !important;
+  min-width: 44px !important;
+}
+html[data-moonable-large-targets] body :is(input[type="checkbox"], input[type="radio"]):not([data-moonable-ui], [data-moonable-ui] *) {
+  width: 1.6em !important;
+  height: 1.6em !important;
+}
+html[data-moonable-large-targets] body a:not([data-moonable-ui], [data-moonable-ui] *) { padding-block: 0.3em; }
+
+/* ---------- Kursor besar ---------- */
+html[data-moonable-large-cursor],
+html[data-moonable-large-cursor] body *:not([data-moonable-ui] *) {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'><path d='M4 2l.1 18 4.4-4.2 3 6.7 3.1-1.4-3-6.6 6.2-.3z' fill='black' stroke='white' stroke-width='1.6' stroke-linejoin='round'/></svg>") 4 3, auto !important;
+}
+html[data-moonable-large-cursor] body :is(a, button, [role="button"], summary, select, label, input[type="checkbox"], input[type="radio"]):not([data-moonable-ui] *) {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'><path d='M4 2l.1 18 4.4-4.2 3 6.7 3.1-1.4-3-6.6 6.2-.3z' fill='%23ffd400' stroke='black' stroke-width='1.6' stroke-linejoin='round'/></svg>") 4 3, pointer !important;
+}
+
+/* ---------- Batasi lebar baris ---------- */
+html[data-moonable-limit-line-width] body :is(p, li, blockquote, dd, figcaption):not([data-moonable-ui], [data-moonable-ui] *) { max-width: 70ch !important; }
+
+/* ---------- Sembunyikan elemen pengganggu ---------- */
+html[data-moonable-simplify] body :is([data-moonable-distraction], marquee, blink, .adsbygoogle):not([data-moonable-ui]) { display: none !important; }
+
+/* ---------- Saturasi & bantuan buta warna (via CSS variable → filter) ---------- */
+html[data-moonable-saturation="gray"] { --moonable-f-sat: grayscale(1); }
+html[data-moonable-saturation="low"] { --moonable-f-sat: saturate(0.4); }
+html[data-moonable-saturation="high"] { --moonable-f-sat: saturate(2); }
+html[data-moonable-color-blind="protanopia"] { --moonable-f-cb: url(#moonable-cb-protanopia); }
+html[data-moonable-color-blind="deuteranopia"] { --moonable-f-cb: url(#moonable-cb-deuteranopia); }
+html[data-moonable-color-blind="tritanopia"] { --moonable-f-cb: url(#moonable-cb-tritanopia); }
+html:is([data-moonable-saturation], [data-moonable-color-blind]) { filter: var(--moonable-f-sat, ) var(--moonable-f-cb, ); }
+
+/* ---------- Kontras tinggi (taruh PALING AKHIR agar menang atas highlight) ---------- */
+html[data-moonable-contrast="dark"],
+html[data-moonable-contrast="dark"] body { background: #000 !important; color: #fff !important; }
+html[data-moonable-contrast="dark"] body *:not([data-moonable-ui], [data-moonable-ui] *) {
+  background-color: #000 !important; background-image: none !important; color: #fff !important;
+  border-color: #fff !important; text-shadow: none !important; box-shadow: none !important;
+}
+html[data-moonable-contrast="dark"] body a:not([data-moonable-ui], [data-moonable-ui] *),
+html[data-moonable-contrast="dark"] body a:not([data-moonable-ui], [data-moonable-ui] *) * { color: #ffe600 !important; }
+html[data-moonable-contrast="dark"] body :is(button, input, select, textarea):not([data-moonable-ui], [data-moonable-ui] *) { border: 2px solid #fff !important; }
+
+html[data-moonable-contrast="light"],
+html[data-moonable-contrast="light"] body { background: #fff !important; color: #000 !important; }
+html[data-moonable-contrast="light"] body *:not([data-moonable-ui], [data-moonable-ui] *) {
+  background-color: #fff !important; background-image: none !important; color: #000 !important;
+  border-color: #000 !important; text-shadow: none !important; box-shadow: none !important;
+}
+html[data-moonable-contrast="light"] body a:not([data-moonable-ui], [data-moonable-ui] *),
+html[data-moonable-contrast="light"] body a:not([data-moonable-ui], [data-moonable-ui] *) * { color: #0000c8 !important; }
+html[data-moonable-contrast="light"] body :is(button, input, select, textarea):not([data-moonable-ui], [data-moonable-ui] *) { border: 2px solid #000 !important; }
+
+html[data-moonable-contrast="yellow"],
+html[data-moonable-contrast="yellow"] body { background: #000 !important; color: #ffe600 !important; }
+html[data-moonable-contrast="yellow"] body *:not([data-moonable-ui], [data-moonable-ui] *) {
+  background-color: #000 !important; background-image: none !important; color: #ffe600 !important;
+  border-color: #ffe600 !important; text-shadow: none !important; box-shadow: none !important;
+}
+html[data-moonable-contrast="yellow"] body a:not([data-moonable-ui], [data-moonable-ui] *),
+html[data-moonable-contrast="yellow"] body a:not([data-moonable-ui], [data-moonable-ui] *) * { color: #00e5ff !important; }
+html[data-moonable-contrast="yellow"] body :is(button, input, select, textarea):not([data-moonable-ui], [data-moonable-ui] *) { border: 2px solid #ffe600 !important; }
+
+/* ==========================================================================
+   Komponen UI milik library
+   ========================================================================== */
+[data-moonable-ui] {
+  --ak-ink: #10243e;
+  --ak-ink-soft: #3a4d66;
+  --ak-paper: #ffffff;
+  --ak-wash: #eef3f9;
+  --ak-line: #b8c4d4;
+  --ak-brand: #0b4fb3;
+  --ak-brand-ink: #ffffff;
+  --ak-focus: #ffd400;
+  --ak-ok: #0a6b3d;
+  font-family: "Atkinson Hyperlegible", Verdana, "Segoe UI", Tahoma, Arial, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--ak-ink);
+  box-sizing: border-box;
+}
+[data-moonable-ui] *, [data-moonable-ui] *::before, [data-moonable-ui] *::after { box-sizing: border-box; }
+
+.moonable-sr-only {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Tautan lompat ke konten */
+.moonable-skip-link {
+  position: fixed; top: 0.5rem; left: 0.5rem; z-index: 2147483647;
+  padding: 0.9rem 1.4rem; background: #10243e; color: #fff !important; font: 700 1.125rem/1.2 Verdana, Arial, sans-serif;
+  border-radius: 8px; text-decoration: underline; transform: translateY(-200%);
+}
+.moonable-skip-link:focus { transform: none; outline: 4px solid #ffd400; outline-offset: 2px; }
+
+/* Tombol umum */
+.moonable-btn {
+  appearance: none; font: inherit; font-weight: 700; color: var(--ak-ink); background: var(--ak-paper);
+  border: 2px solid var(--ak-ink); border-radius: 10px; padding: 0.7rem 1rem; min-height: 52px; min-width: 52px;
+  cursor: pointer; text-align: center;
+}
+.moonable-btn:hover { background: var(--ak-wash); }
+.moonable-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.moonable-btn--primary { background: var(--ak-brand); color: var(--ak-brand-ink); border-color: var(--ak-brand); }
+.moonable-btn--primary:hover { background: #083d8c; }
+.moonable-btn[aria-pressed="true"] { background: var(--ak-ink); color: #fff; border-color: var(--ak-ink); }
+[data-moonable-ui] :focus-visible { outline: 4px solid var(--ak-focus); outline-offset: 2px; box-shadow: 0 0 0 2px #000; }
+
+/* Tombol melayang */
+.moonable-fab {
+  position: fixed; bottom: 1rem; z-index: 2147482000; display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.8rem 1.25rem 0.8rem 1rem; min-height: 60px; border-radius: 999px;
+  background: var(--ak-brand); color: #fff; border: 3px solid #fff; font: inherit; font-weight: 700; cursor: pointer;
+  box-shadow: 0 0 0 2px var(--ak-brand), 0 8px 24px rgb(16 36 62 / 0.35);
+}
+.moonable-root[data-position="right"] .moonable-fab { right: 1rem; }
+.moonable-root[data-position="left"] .moonable-fab { left: 1rem; }
+.moonable-fab:hover { background: #083d8c; }
+
+/* Panel samping */
+.moonable-backdrop { position: fixed; inset: 0; z-index: 2147482500; background: rgb(8 18 33 / 0.55); }
+.moonable-panel {
+  position: fixed; top: 0; bottom: 0; z-index: 2147483000; width: min(32rem, 100vw);
+  display: flex; flex-direction: column; background: var(--ak-paper); box-shadow: 0 0 40px rgb(0 0 0 / 0.4);
+}
+.moonable-root[data-position="right"] .moonable-panel { right: 0; border-left: 4px solid var(--ak-ink); }
+.moonable-root[data-position="left"] .moonable-panel { left: 0; border-right: 4px solid var(--ak-ink); }
+.moonable-panel-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0.9rem 1.1rem; background: var(--ak-ink); color: #fff;
+}
+.moonable-panel-head h2 { margin: 0; font-size: 1.3rem; line-height: 1.25; color: #fff; }
+.moonable-panel-head .moonable-btn { background: #fff; color: var(--ak-ink); border-color: #fff; }
+.moonable-panel-body { flex: 1; overflow-y: auto; padding: 1rem 1.1rem 1.5rem; overscroll-behavior: contain; }
+.moonable-panel-body h3 { margin: 0 0 0.6rem; font-size: 1.1rem; }
+
+/* Mode cepat */
+.moonable-presets { display: grid; grid-template-columns: 1fr; gap: 0.6rem; margin: 0 0 1.2rem; padding: 0; list-style: none; }
+.moonable-preset { width: 100%; text-align: left; display: flex; flex-direction: column; gap: 0.1rem; }
+.moonable-preset small { font-weight: 400; font-size: 0.95rem; opacity: 0.85; }
+.moonable-preset--lead { background: #fff3b0; border-width: 3px; }
+.moonable-preset--lead[aria-pressed="true"] { background: var(--ak-ink); }
+
+/* Bagian (accordion native <details>) */
+.moonable-section { border: 2px solid var(--ak-line); border-radius: 12px; margin: 0 0 0.8rem; background: var(--ak-paper); }
+.moonable-section > summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.9rem 1rem; font-weight: 700; font-size: 1.15rem; min-height: 56px;
+}
+.moonable-section > summary::-webkit-details-marker { display: none; }
+.moonable-section > summary::after { content: "+"; margin-left: auto; font-size: 1.5rem; line-height: 1; }
+.moonable-section[open] > summary::after { content: "−"; }
+.moonable-section[open] > summary { border-bottom: 2px solid var(--ak-line); background: var(--ak-wash); border-radius: 10px 10px 0 0; }
+.moonable-section-icon {
+  display: inline-grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 8px;
+  background: var(--ak-ink); color: #fff; font-size: 1rem; font-weight: 700;
+}
+.moonable-controls { display: grid; gap: 1rem; padding: 1rem; }
+.moonable-control { display: grid; gap: 0.4rem; }
+.moonable-control-label { font-weight: 700; }
+.moonable-hint { margin: 0; font-size: 0.95rem; color: var(--ak-ink-soft); }
+.moonable-note { margin: 0; padding: 0.6rem 0.8rem; background: var(--ak-wash); border-radius: 8px; font-size: 0.95rem; }
+
+/* Pengatur nilai −/+ */
+.moonable-stepper { display: grid; grid-template-columns: 56px 1fr 56px; gap: 0.5rem; align-items: stretch; }
+.moonable-stepper-value { display: grid; place-items: center; min-height: 52px; font-weight: 700; font-size: 1.2rem; background: var(--ak-wash); border-radius: 10px; border: 2px solid var(--ak-line); }
+
+/* Saklar: status selalu ditulis ("Aktif"/"Mati"), tidak hanya warna */
+.moonable-switch { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; text-align: left; }
+.moonable-switch-state {
+  flex: none; padding: 0.15rem 0.7rem; border-radius: 999px; border: 2px solid currentColor; font-size: 0.95rem;
+}
+.moonable-select {
+  font: inherit; width: 100%; min-height: 52px; padding: 0.6rem 0.8rem; color: var(--ak-ink); background: var(--ak-paper);
+  border: 2px solid var(--ak-ink); border-radius: 10px;
+}
+.moonable-panel-foot { padding: 0.9rem 1.1rem; border-top: 2px solid var(--ak-line); display: grid; gap: 0.6rem; background: var(--ak-wash); }
+.moonable-panel-foot p { margin: 0; font-size: 0.95rem; color: var(--ak-ink-soft); }
+
+/* Panduan baca */
+.moonable-guide-band {
+  position: fixed; left: 0; right: 0; z-index: 2147481000; pointer-events: none;
+  border-block: 3px solid #ffd400; background: rgb(255 212 0 / 0.14); box-shadow: 0 0 0 1px #000;
+}
+.moonable-mask { position: fixed; left: 0; right: 0; z-index: 2147481000; pointer-events: none; background: rgb(0 0 0 / 0.72); }
+.moonable-mask-top { top: 0; }
+.moonable-mask-bottom { bottom: 0; }
+
+/* Toast visual */
+.moonable-toasts { position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 2147483600; display: grid; gap: 0.6rem; width: min(34rem, calc(100vw - 2rem)); pointer-events: none; }
+.moonable-toast {
+  padding: 1rem 1.25rem; border-radius: 12px; border: 3px solid #fff; background: #10243e; color: #fff;
+  font-size: 1.25rem; font-weight: 700; box-shadow: 0 8px 28px rgb(0 0 0 / 0.4);
+}
+.moonable-toast--success { background: #0a6b3d; }
+.moonable-toast--warning { background: #8a5a00; }
+.moonable-toast--error { background: #a31616; }
+
+/* Dialog peringatan sesi */
+.moonable-modal-backdrop { position: fixed; inset: 0; z-index: 2147483500; display: grid; place-items: center; background: rgb(8 18 33 / 0.7); padding: 1rem; }
+.moonable-modal { width: min(30rem, 100%); background: #fff; border: 4px solid #10243e; border-radius: 16px; padding: 1.5rem; display: grid; gap: 1rem; }
+.moonable-modal h2 { margin: 0; font-size: 1.6rem; color: #10243e; }
+.moonable-modal p { margin: 0; font-size: 1.2rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .moonable-panel { animation: moonable-in 0.18s ease-out; }
+  @keyframes moonable-in { from { transform: translateX(var(--moonable-from, 24px)); opacity: 0; } to { transform: none; opacity: 1; } }
+}
+.moonable-root[data-position="left"] { --moonable-from: -24px; }
+
+@media print { [data-moonable-ui] { display: none !important; } }
